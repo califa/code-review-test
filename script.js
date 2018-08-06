@@ -199,7 +199,7 @@ async function build (filepath) {
   }
 
   if (!taskPromise) {
-    taskPromise = masterToPDF(inputPath, relaxedGlobals, TEMP_HTML_PATH, outputPath, locals)
+    taskPromise = masterToPDF(inputPath, relaxedGlobals, tempHtmlPath, outputPath, locals)
   }
   await taskPromise
   var duration = ((performance.now() - t0) / 1000).toFixed(2)

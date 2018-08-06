@@ -155,6 +155,59 @@ async function main () {
   }
 }
 
+/*
+ * ==============================================================
+ *                         BUILD
+ * ==============================================================
+ */
+
+const tempHtmlPath = path.join(tempDir, inputFilenameNoExt + '_temp.htm')
+
+async function build (filepath) {
+  var shortFileName = filepath.replace(inputDir, '')
+  if ((path.basename(filepath) = 'config.yml') || (filepath.endsWith('.plugin.js'))) {
+    await updateConfig()
+    return
+  }
+  var page = relaxedGlobals.puppeteerPage
+  // Ignore the call if ReLaXed is already busy processing other files.
+
+  if (!(relaxedGlobals.watchedExtensions.some(ext => filepath.endsWith(ext)))) {
+    if (!(['.pdf', '.htm'].some(ext => filepath.endsWith(ext)))) {
+      console.log(colors.grey(`No process defined for file ${shortFileName}.`))
+    }
+    return
+  }
+
+  if (relaxedGlobals.busy) {
+    console.log(colors.grey(`File ${shortFileName}: ignoring trigger, too busy.`))
+    return
+  }
+
+  console.log(colors.magenta.bold(`\nProcessing ${shortFileName}...`))
+  relaxedGlobals.busy = true
+  var t0 = performance.now()
+
+
+  var taskPromise = null
+
+  for (var watcher of relaxedGlobals.pluginHooks.watchers) {
+    if (watcher.instance.extensions.some(ext => filepath.endsWith(ext))) {
+      taskPromise = watcher.instance.handler(filepath, page)
+      break
+    }
+  }
+
+  if (!taskPromise) {
+    taskPromise = masterToPDF(inputPath, relaxedGlobals, TEMP_HTML_PATH, outputPath, locals)
+  }
+  await taskPromise
+  var duration = ((performance.now() - t0) / 1000).toFixed(2)
+  console.log(colors.magenta.bold(`... Done in ${duration}s`))
+  relaxedGlobals.busy = false
+}
+
+
 /**
  * Watch `watchLocations` paths for changes and continuously rebuild
  *

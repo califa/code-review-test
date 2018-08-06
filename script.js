@@ -161,7 +161,7 @@ async function main () {
  * ==============================================================
  */
 
-const TEMP_HTML_PATH = path.join(tempDir, inputFilenameNoExt + '_temp.htm')
+const tempHtmlPath = path.join(tempDir, inputFilenameNoExt + '_temp.htm')
 
 async function build (filepath) {
   var shortFileName = filepath.replace(inputDir, '')

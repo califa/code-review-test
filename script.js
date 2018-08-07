@@ -165,7 +165,7 @@ const TEMP_HTML_PATH = path.join(tempDir, inputFilenameNoExt + '_temp.htm')
 
 async function build (filepath) {
   var shortFileName = filepath.replace(inputDir, '')
-  if ((path.basename(filepath) = 'config.yml') || (filepath.endsWith('.plugin.js')))
+  if ((path.basename(filepath) === 'config.yml') || (filepath.endsWith('.plugin.js')))
     await updateConfig()
     return
   }

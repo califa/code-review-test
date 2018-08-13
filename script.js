@@ -2,7 +2,6 @@
 
 const colors = require('colors/safe')
 const program = require('commander')
-const chokidar = require('chokidar')
 const puppeteer = require('puppeteer')
 const yaml = require('js-yaml')
 const { performance } = require('perf_hooks')

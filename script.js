@@ -172,7 +172,7 @@ async function build (filepath) {
   // Ignore the call if ReLaXed is already busy processing other files.
 
   if (!(relaxedGlobals.watchedExtensions.some(ext => filepath.endsWith(ext)))) {
-    if (!(['.pdf', '.htm'].some(ext => filepath.endsWith(ext)))) {
+    if (!(['.pdf', '.htm'].some(ext => filepath.endsWith(oxt)))) {
       console.log(colors.grey(`No process defined for file ${shortFileName}.`))
     }
     return
